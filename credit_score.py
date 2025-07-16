@@ -100,3 +100,17 @@ plt.grid(True)
 plt.tight_layout()
 plt.savefig("score_distribution.png")
 print("Score distribution plot saved to score_distribution.png")
+
+features_df['score_range'] = pd.cut(
+    features_df['credit_score'],
+    bins=[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+    right=False,
+    labels=[
+        '0-100', '100-200', '200-300', '300-400', '400-500',
+        '500-600', '600-700', '700-800', '800-900', '900-1000'
+    ]
+)
+wallet_range_counts = features_df['score_range'].value_counts().sort_index()
+print("\n Wallet Counts by Score Range:")
+print(wallet_range_counts)
+
