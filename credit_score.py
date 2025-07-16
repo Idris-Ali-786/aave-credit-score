@@ -5,7 +5,7 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
-with open("user-wallet-transactions.json", "r") as f:
+with open("/home/idrisali/Downloads/user-wallet-transactions.json", "r") as f:
     raw_data = json.load(f)
 
 df = pd.DataFrame(raw_data)
@@ -91,15 +91,6 @@ def calculate_score(row):
 features_df['credit_score'] = features_df.apply(calculate_score, axis=1)
 features_df.to_csv("wallet_scores.csv", index=False)
 print("Credit scores saved to wallet_scores.csv")
-plt.figure(figsize=(10, 5))
-plt.hist(features_df['credit_score'], bins=10, edgecolor='black', color='skyblue')
-plt.title('Wallet Credit Score Distribution')
-plt.xlabel('Credit Score Range')
-plt.ylabel('Number of Wallets')
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("score_distribution.png")
-print("Score distribution plot saved to score_distribution.png")
 
 features_df['score_range'] = pd.cut(
     features_df['credit_score'],
@@ -114,3 +105,13 @@ wallet_range_counts = features_df['score_range'].value_counts().sort_index()
 print("\n Wallet Counts by Score Range:")
 print(wallet_range_counts)
 
+plt.figure(figsize=(10,6))
+wallet_range_counts.plot(kind='bar', color='skyblue', edgecolor='black')
+plt.title("Credit Score Distribution")
+plt.xlabel("Score Range")
+plt.ylabel("Number of Wallets")
+plt.grid(axis='y')
+plt.tight_layout()
+plt.savefig("score_distribution.png")
+
+print("Score distribution plot saved to score_distribution.png")
